@@ -548,6 +548,10 @@ img.helmet.ghost{position:absolute;inset:0}
 .cert-box .small{color:#c8a882;margin-top:10px}
 
 /* ===== spacing polish ===== */
+.stage.painted .cap{position:static!important;display:block;margin:22px 0 0 auto!important;max-width:100%!important;text-align:right;font-size:12px;line-height:1.5;color:#efe3c899}
+.stage.painted{padding-bottom:58px!important}
+.stage .controls:last-child,.stage .controls:nth-last-child(2){margin-bottom:6px}
+@media (max-width:880px){.stage.painted .cap{margin-top:18px!important}}
 @media (max-width:880px){
  .gear{position:absolute;top:12px;right:12px;padding:7px 12px;font-size:14px}
  .game{padding-top:58px;padding-left:14px;padding-right:14px}
@@ -634,7 +638,8 @@ const ART_IMG=[
 ];
 const imgOf=(si,ri)=>{const a=ART_IMG[si][ri];return {src:"img/"+a[0]+".webp",pos:a[1],cap:a[2]}};
 function preload(si,ri){try{if(ri<5){const i=new Image();i.src=imgOf(si,ri).src}}catch(e){}}
-function stageBgHTML(){const a=imgOf(S.setIdx,S.round);return `<div class="stage-bg"><img src="${a.src}" alt="" style="object-position:${a.pos};--kb:${a.pos};animation-delay:-${((performance.now()-(S.roundStart||0))/1000).toFixed(2)}s"></div><div class="cap">${esc(a.cap)}</div>`}
+function stageBgHTML(){const a=imgOf(S.setIdx,S.round);return `<div class="stage-bg"><img src="${a.src}" alt="" style="object-position:${a.pos};--kb:${a.pos};animation-delay:-${((performance.now()-(S.roundStart||0))/1000).toFixed(2)}s"></div>`}
+function capHTML(){const a=imgOf(S.setIdx,S.round);return `<div class="cap">${esc(a.cap)}</div>`}
 function artHTML(small){const a=imgOf(S.setIdx,S.round);return `<div class="scene-art ${small?'sm':''}"><img src="${a.src}" alt="" style="object-position:${a.pos};--kb:${a.pos};animation-delay:-${((performance.now()-(S.roundStart||0))/1000).toFixed(2)}s"><div class="cap">${esc(a.cap)}</div></div>`}
 let S=null, timerId=null, AC=null, ambience=null, bgm=null, bgmName="", playlist=[], plIdx=0;
 function loadTrack(k){
@@ -1189,7 +1194,7 @@ function render(){
   if(S.phase==="title"){app.innerHTML=titleHTML();return}
   if(S.phase==="cine"){app.innerHTML=cineHTML();return}
   const enter=S.phase!==lastPhase; lastPhase=S.phase;
-  app.innerHTML=`<div class="game">${headHTML()}<div class="board">${crewPanel()}<div class="stage ${S.phase!=="final"?'painted':''} ${enter&&S.phase!=="origin"?'enter':''}">${S.phase!=="final"?stageBgHTML():""}${stageHTML()}</div></div></div>`;
+  app.innerHTML=`<div class="game">${headHTML()}<div class="board">${crewPanel()}<div class="stage ${S.phase!=="final"?'painted':''} ${enter&&S.phase!=="origin"?'enter':''}">${S.phase!=="final"?stageBgHTML():""}${stageHTML()}${S.phase!=="final"?capHTML():""}</div></div></div>`;
   if(S.fx&&S.fx.reveal&&S.phase==="resolve") setTimeout(()=>{if(S.fx)S.fx.reveal=false},950);
 }
 
