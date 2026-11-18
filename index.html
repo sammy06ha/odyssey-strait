@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>스퀼라와 카륍디스의 해협</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=GFS+Neohellenic:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=GFS+Neohellenic:wght@400;700&family=GFS+Didot&family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&display=swap">
 <style>
 :root{
   --night:#06080b; --deep:#0b1216; --bronze:#b08d57; --bronze2:#d9b46e; --gold:#e8c983;
@@ -560,7 +560,7 @@ img.helmet.ghost{position:absolute;inset:0}
  .stage.painted .cap{max-width:80%;right:14px}
 }
 .final-ledger{margin-top:34px}
-.cap{font-family:"Cormorant Garamond","Noto Serif KR",serif!important;font-size:14px!important;letter-spacing:.02em;font-weight:500}
+.cap{font-family:"GFS Didot","Noto Serif KR",serif!important;font-size:14px!important;letter-spacing:.03em;font-weight:400}
 .cap i{font-style:italic}
 .intro .num{padding:.05em .35em .12em}
 .intro .num::after{padding:inherit;box-sizing:border-box}
@@ -764,7 +764,7 @@ const ART_IMG=[
 const imgOf=(si,ri)=>{const a=ART_IMG[si][ri];return {src:"img/"+a[0]+".webp",pos:a[1],cap:a[2]}};
 function preload(si,ri){try{if(ri<5){const i=new Image();i.src=imgOf(si,ri).src}}catch(e){}}
 function stageBgHTML(){const a=imgOf(S.setIdx,S.round);return `<div class="stage-bg"><img src="${a.src}" alt="" style="object-position:${a.pos};--kb:${a.pos};animation-delay:-${((performance.now()-(S.roundStart||0))/1000).toFixed(2)}s"></div>`}
-function capFmt(c){const [a,t,y]=String(c).split("|");return `${esc(a)}, <i>${esc(t)}</i>${y?", "+esc(y):""}`}
+function capFmt(c){const [a,t,y]=String(c).split("|");return `${esc(fgAll(a))}, <i>${esc(fgAll(t))}</i>${y?", "+esc(fgAll(y)):""}`}
 function capHTML(){const a=imgOf(S.setIdx,S.round);return `<div class="cap">${capFmt(a.cap)}</div>`}
 function artHTML(small){const a=imgOf(S.setIdx,S.round);return `<div class="scene-art ${small?'sm':''}"><img src="${a.src}" alt="" style="object-position:${a.pos};--kb:${a.pos};animation-delay:-${((performance.now()-(S.roundStart||0))/1000).toFixed(2)}s"><div class="cap">${capFmt(a.cap)}</div></div>`}
 let S=null, timerId=null, AC=null, ambience=null, bgm=null, bgmName="", playlist=[], plIdx=0;
@@ -1168,6 +1168,8 @@ const sign=d=>d>0?`+${d}`:`${d}`;
 const deltaHTML=d=>`<span class="delta ${d>0?'pos':d<0?'neg':'zero'}">${d===0?"±0":sign(d)}</span>`;
 const FG_MAP={A:"Λ",B:"Β",D:"Δ",E:"Σ",F:"Ϝ",H:"Η",I:"Ι",K:"Κ",M:"Μ",N:"Ν",O:"Θ",P:"Ρ",T:"Τ",X:"Χ",Y:"Ψ",Z:"Ζ"};
 const fgx=t=>String(t).replace(/[A-Z]/g,c=>FG_MAP[c]||c);
+const FG_LOW={a:"α",b:"β",e:"ε",i:"ι",k:"κ",n:"η",o:"ο",p:"ρ",t:"τ",u:"υ",v:"ν",w:"ω",x:"χ",y:"γ"};
+const fgAll=t=>fgx(t).replace(/[a-z]/g,c=>FG_LOW[c]||c);
 const fg=t=>`<span class="fg">${fgx(t)}</span>`;
 const ICON={helmet:"icons/helmet.webp",athena:"icons/aegis.webp",circe:"icons/circe.webp",curse:"icons/trident.webp",elpenor:"icons/oar.webp",prophecy:"icons/tripod.webp",delay:"icons/island.webp",H:"icons/coinowl.webp",T:"icons/coinsea.webp"};
 const ico=(k,cls="ico")=>`<img class="${cls}" src="${ICON[k]}" alt="" draggable="false">`;
