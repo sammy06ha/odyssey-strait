@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>스퀼라와 카륍디스의 해협</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=GFS+Neohellenic:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&display=swap">
 <style>
 :root{
   --night:#06080b; --deep:#0b1216; --bronze:#b08d57; --bronze2:#d9b46e; --gold:#e8c983;
@@ -21,7 +21,7 @@ body{font-family:"Noto Sans KR",sans-serif;color:var(--bone);overflow-x:hidden}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at 50% 40%,transparent 40%,#000c 100%)}
 button{font-family:inherit;cursor:pointer;border:none}
-.cz{font-family:"Cinzel",serif;letter-spacing:.14em}
+.cz{font-family:"Cinzel","GFS Neohellenic",serif;letter-spacing:.14em}
 .sm-font{font-family:"Noto Sans KR",sans-serif;font-weight:700}
 #app{position:relative;z-index:2;min-height:100vh}
 
@@ -42,7 +42,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 
 /* ---------- 타이틀 ---------- */
 .title-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
-.title-screen .greek{font-family:"Cinzel",serif;letter-spacing:.5em;color:var(--bronze2);font-size:14px;margin-bottom:22px}
+.title-screen .greek{font-family:"Cinzel","GFS Neohellenic",serif;letter-spacing:.5em;color:var(--bronze2);font-size:14px;margin-bottom:22px}
 .title-screen h1{font-family:"Noto Serif KR",serif;font-weight:700;font-size:clamp(42px,7vw,86px);margin:0;line-height:1.1;
   background:linear-gradient(180deg,#f6e2b0,#c99a52 60%,#7d5726);-webkit-background-clip:text;background-clip:text;color:transparent;
   text-shadow:0 0 40px #d9b46e22}
@@ -53,7 +53,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 .setgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
 @media (max-width:640px){.setgrid{grid-template-columns:repeat(2,1fr)}}
 .setbtn{background:#0f181d;border:1px solid #b08d5755;border-radius:4px;padding:10px;text-align:left;color:var(--bone)}
-.setbtn .n{font-family:"Cinzel",serif;font-size:12px;color:var(--bronze2);letter-spacing:.2em}
+.setbtn .n{font-family:"Cinzel","GFS Neohellenic",serif;font-size:12px;color:var(--bronze2);letter-spacing:.2em}
 .setbtn .t{font-family:"Noto Sans KR",sans-serif;font-size:15px;margin-top:3px}
 .setbtn .s{font-size:11.5px;color:#a99d84;margin-top:3px}
 .setbtn.on{border-color:var(--gold);background:#2a2214;box-shadow:inset 0 0 0 1px var(--gold)}
@@ -123,7 +123,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 .now{font-size:14px;margin-top:8px;color:#2b1a0c;line-height:1.6}
 /* ---------- 모션 ---------- */
 .intro{position:fixed;inset:0;z-index:12;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 50%,#0d171cf2,#030507fa 70%);pointer-events:none;animation:introOut 2.9s ease forwards}
-.intro .num{font-family:"Cinzel",serif;font-weight:900;font-size:clamp(90px,16vw,170px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--gold);letter-spacing:.06em;animation:numIn 1.6s cubic-bezier(.2,.7,.2,1) both}
+.intro .num{font-family:"Cinzel","GFS Neohellenic",serif;font-weight:900;font-size:clamp(90px,16vw,170px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--gold);letter-spacing:.06em;animation:numIn 1.6s cubic-bezier(.2,.7,.2,1) both}
 .intro .num::after{content:attr(data-n);position:absolute;inset:0;color:var(--gold);-webkit-text-stroke:0;clip-path:inset(100% 0 0 0);animation:fillUp 1.2s .5s cubic-bezier(.6,0,.3,1) forwards}
 .intro .num{position:relative}
 .intro .bar{width:0;height:1px;background:var(--gold);margin:22px 0 18px;animation:barIn 1s .5s cubic-bezier(.6,0,.3,1) forwards}
@@ -209,10 +209,10 @@ button.choice{font:inherit;text-align:left;width:100%;cursor:pointer;color:inher
 /* ---------- 게임 화면 ---------- */
 .game{max-width:1180px;margin:0 auto;padding:62px 20px 50px}
 .ghead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:14px solid transparent;border-image:var(--keyB) 0 0 14 0 repeat}
-.ghead .brand .g{font-family:"Cinzel",serif;color:var(--bronze2);letter-spacing:.4em;font-size:12px}
+.ghead .brand .g{font-family:"Cinzel","GFS Neohellenic",serif;color:var(--bronze2);letter-spacing:.4em;font-size:12px}
 .ghead .brand h1{margin:2px 0 0;font-family:"Noto Serif KR",serif;font-weight:700;font-size:26px;color:var(--bone)}
 .trials{display:flex;gap:8px;align-items:center}
-.trial{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:"Cinzel",serif;font-size:12px;font-weight:700;color:#8b7d63;border:1px solid #4a3d29}
+.trial{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:"Cinzel","GFS Neohellenic",serif;font-size:12px;font-weight:700;color:#8b7d63;border:1px solid #4a3d29}
 .trial.done{background:#2b2316;color:var(--bronze2);border-color:#6b5532}
 .trial.now{background:var(--terra);color:var(--fig);border-color:var(--gold);box-shadow:0 0 0 3px #e8c98333}
 .hctl{display:flex;gap:8px}
@@ -223,9 +223,9 @@ button.choice{font:inherit;text-align:left;width:100%;cursor:pointer;color:inher
 .crew-panel{background:linear-gradient(180deg,#141b1f,#0b1013);border:1px solid #b08d5755;border-radius:6px;padding:18px 18px 16px;position:relative}
 .crew-panel::before{content:"";position:absolute;left:10px;right:10px;top:-7px;height:14px;background:var(--keyB);background-color:var(--night);background-size:28px 14px}
 .crew-panel .ship{font-family:"Noto Serif KR",serif;font-size:21px;color:var(--gold);text-align:center;margin-top:4px}
-.crew-panel .sub{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.3em;color:#8b7d63;text-align:center;margin-top:2px}
+.crew-panel .sub{font-family:"Cinzel","GFS Neohellenic",serif;font-size:11px;letter-spacing:.3em;color:#8b7d63;text-align:center;margin-top:2px}
 .crew-count{text-align:center;margin:12px 0 6px}
-.crew-count .num{font-family:"Cinzel",serif;font-weight:900;font-size:64px;line-height:1;color:var(--bone);transition:color .4s,text-shadow .4s}
+.crew-count .num{font-family:"Cinzel","GFS Neohellenic",serif;font-weight:900;font-size:64px;line-height:1;color:var(--bone);transition:color .4s,text-shadow .4s}
 .crew-count .num.up{color:#9fd18a;text-shadow:0 0 20px #9fd18a66}
 .crew-count .num.down{color:#e0705a;text-shadow:0 0 20px #e0705a66}
 .crew-count .lbl{font-size:14px;color:var(--bone2)}
@@ -247,13 +247,13 @@ button.choice{font:inherit;text-align:left;width:100%;cursor:pointer;color:inher
   padding:38px 34px 30px;border-radius:4px;box-shadow:0 30px 70px #000b,inset 0 0 60px #0004;min-height:470px}
 .stage::before,.stage::after{content:"";position:absolute;left:0;right:0;height:14px;background:var(--key);background-size:28px 14px;opacity:.85}
 .stage::before{top:12px}.stage::after{bottom:12px}
-.stage .kicker{font-family:"Cinzel",serif;font-weight:700;letter-spacing:.3em;font-size:13px;color:#3b210f;margin-top:8px}
+.stage .kicker{font-family:"Cinzel","GFS Neohellenic",serif;font-weight:700;letter-spacing:.3em;font-size:13px;color:#3b210f;margin-top:8px}
 .stage h2{font-family:"Noto Serif KR",serif;font-weight:700;font-size:clamp(28px,3.4vw,40px);margin:4px 0 14px;color:var(--fig)}
 .situ{font-size:18.5px;line-height:1.8;margin:0 0 20px;color:#1d140b}
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:640px){.choices{grid-template-columns:1fr}}
 .choice{background:var(--fig);color:var(--bone);border-radius:3px;padding:16px 18px;position:relative;box-shadow:0 8px 20px #0005}
-.choice .ab{font-family:"Cinzel",serif;font-weight:900;font-size:28px;color:var(--terra2);line-height:1}
+.choice .ab{font-family:"Cinzel","GFS Neohellenic",serif;font-weight:900;font-size:28px;color:var(--terra2);line-height:1}
 .choice p{margin:6px 0 0;font-size:17px;line-height:1.6}
 .controls{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .address{font-family:"Noto Sans KR",sans-serif;font-size:17px;color:#3b210f;margin:-4px 0 12px}
@@ -261,12 +261,12 @@ button.choice{font:inherit;text-align:left;width:100%;cursor:pointer;color:inher
 .timer{display:flex;align-items:center;gap:24px;margin:6px 0 10px}
 .ring{width:150px;height:150px;position:relative;flex:none}
 .ring svg{transform:rotate(-90deg)}
-.ring .t{position:absolute;inset:0;display:grid;place-items:center;font-family:"Cinzel",serif;font-size:46px;font-weight:900;color:var(--fig)}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;font-family:"Cinzel","GFS Neohellenic",serif;font-size:46px;font-weight:900;color:var(--fig)}
 .ring.end .t{color:#5a1408}
 
 .pick{background:#00000018;border-radius:4px;padding:16px;max-width:560px}
 .abbtns{display:flex;gap:10px}
-.abbtn{flex:1;padding:16px 0;border-radius:3px;font-family:"Cinzel",serif;font-size:30px;font-weight:900;background:#00000022;color:#3b210f;box-shadow:inset 0 0 0 1.5px #17100a55}
+.abbtn{flex:1;padding:16px 0;border-radius:3px;font-family:"Cinzel","GFS Neohellenic",serif;font-size:30px;font-weight:900;background:#00000022;color:#3b210f;box-shadow:inset 0 0 0 1.5px #17100a55}
 .abbtn.on{background:var(--fig);color:var(--terra2);box-shadow:0 6px 16px #0006}
 .athena-chk{margin-top:12px;display:flex;align-items:center;gap:10px;font-size:15.5px;padding:10px 12px;border-radius:3px;background:#17100a;color:#bcd6e8;cursor:pointer;user-select:none}
 .athena-chk input{width:18px;height:18px;accent-color:#bcd6e8}
@@ -274,9 +274,9 @@ button.choice{font:inherit;text-align:left;width:100%;cursor:pointer;color:inher
 
 .res{background:var(--fig);color:var(--bone);border-radius:3px;padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 10px 24px #0006}
 .res .act{font-size:13.5px;color:#b9a98a}
-.res .picked{font-family:"Cinzel",serif;font-weight:900;color:var(--terra2);font-size:15px;letter-spacing:.2em}
+.res .picked{font-family:"Cinzel","GFS Neohellenic",serif;font-weight:900;color:var(--terra2);font-size:15px;letter-spacing:.2em}
 .res .txt{font-family:"Noto Sans KR",sans-serif;font-size:21px;line-height:1.6;margin:0}
-.delta{font-family:"Cinzel",serif;font-size:36px;font-weight:900}
+.delta{font-family:"Cinzel","GFS Neohellenic",serif;font-size:36px;font-weight:900}
 .delta.pos{color:#9fd18a}.delta.neg{color:#e0705a}.delta.zero{color:#b9a98a}
 .coins{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
 .coin{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;
@@ -300,20 +300,20 @@ button.choice{font:inherit;text-align:left;width:100%;cursor:pointer;color:inher
 
 .final-wrap{text-align:center;padding-top:6px}
 .final-wrap .kicker{margin-top:10px}
-.final-wrap .score{font-family:"Cinzel",serif;font-size:96px;font-weight:900;line-height:1;margin-top:10px;color:var(--fig)}
+.final-wrap .score{font-family:"Cinzel","GFS Neohellenic",serif;font-size:96px;font-weight:900;line-height:1;margin-top:10px;color:var(--fig)}
 .final-wrap .score small{font-family:"Noto Sans KR",sans-serif;font-size:22px;font-weight:400;margin-left:6px}
 .final-wrap h2{font-size:38px}
 .tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px;text-align:left}
 @media (max-width:640px){.tiers{grid-template-columns:1fr 1fr}}
 .tier{background:#00000022;border-radius:3px;padding:10px 12px;opacity:.55}
 .tier.on{background:var(--fig);color:var(--bone);opacity:1;box-shadow:0 8px 20px #0006}
-.tier .r{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.15em;font-weight:700}
+.tier .r{font-family:"Cinzel","GFS Neohellenic",serif;font-size:11px;letter-spacing:.15em;font-weight:700}
 .tier.on .r{color:var(--terra2)}
 .tier .n{font-family:"Noto Sans KR",sans-serif;font-size:17px;margin-top:3px}
 .tier .g{font-size:12px;margin-top:3px;opacity:.8}
 .settle{width:100%;border-collapse:collapse;margin-top:16px;font-size:16px;text-align:left}
 .settle td{padding:9px 6px;border-bottom:1px solid #17100a44}
-.settle td:last-child{text-align:right;font-family:"Cinzel",serif;font-weight:700}
+.settle td:last-child{text-align:right;font-family:"Cinzel","GFS Neohellenic",serif;font-weight:700}
 .settle .tot td{font-size:20px;border-bottom:none;font-weight:700}
 
 .modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
@@ -333,7 +333,7 @@ body{color:var(--ink)}
 #sea,.grain{display:none}
 .clay-bg{position:fixed;inset:0;z-index:0;background-color:var(--clay);background-image:var(--mottle);background-size:900px 900px}
 .vignette{background:radial-gradient(ellipse at 50% 40%,transparent 45%,#3a14047a 100%)}
-.cz,.greek,.ghead .brand .g,.crew-panel .sub,.intro .num{font-family:"Cinzel Decorative","Cinzel",serif}
+.cz,.greek,.ghead .brand .g,.crew-panel .sub,.intro .num{font-family:"Cinzel Decorative","Cinzel","GFS Neohellenic",serif}
 /* 띠 장식 */
 .band{height:12px;background:var(--ink)}
 .palm{height:44px;background:var(--palm) repeat-x center/48px 44px;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
@@ -521,13 +521,13 @@ img.helmet.ghost{position:absolute;inset:0}
  box-shadow:inset 0 0 0 4px var(--ink),inset 0 0 0 5px #e08a4c66,0 14px 30px #000a}
 .ledger::before{content:"";position:absolute;left:12px;right:12px;top:-11px;height:22px;background:var(--band) round no-repeat 0 0/50px 22px}
 .ledger h4{font-family:"Noto Serif KR",serif;font-size:19px;margin:0;color:var(--cream)}
-.ledger .sub{font-family:"Cinzel",serif;font-size:11px;letter-spacing:.3em;color:var(--clay2);margin:4px 0 12px}
+.ledger .sub{font-family:"Cinzel","GFS Neohellenic",serif;font-size:11px;letter-spacing:.3em;color:var(--clay2);margin:4px 0 12px}
 .ledger ol{list-style:none;margin:0;padding:0;counter-reset:r}
 .ledger li{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:8px;padding:7px 0;border-top:1px solid #e08a4c22;font-size:15px}
-.ledger li .rk{font-family:"Cinzel",serif;font-weight:700;color:var(--clay2);text-align:center}
+.ledger li .rk{font-family:"Cinzel","GFS Neohellenic",serif;font-weight:700;color:var(--clay2);text-align:center}
 .ledger li:first-child .rk{color:#f3dca2}
 .ledger li .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:"Nanum Myeongjo",serif;font-weight:700}
-.ledger li .sc{font-family:"Cinzel",serif;font-weight:700;font-size:18px}
+.ledger li .sc{font-family:"Cinzel","GFS Neohellenic",serif;font-weight:700;font-size:18px}
 .ledger li .sc small{font-family:"Noto Sans KR";font-size:11px;font-weight:400;margin-left:2px;color:#c8a882}
 .ledger li.new{background:linear-gradient(90deg,#c8652e33,transparent)}
 .ledger .empty{font-size:14px;color:#b89a78;line-height:1.7;padding:6px 0}
@@ -537,7 +537,7 @@ img.helmet.ghost{position:absolute;inset:0}
 @media (min-width:1180px){.title-ledger{position:fixed;right:max(24px,calc(50vw - 640px));top:50%;transform:translateY(-50%);margin:0}}
 .final-ledger{margin:22px auto 0}
 .rankline{margin-top:14px;font-size:17px;color:#2a170c}
-.rankline b{color:var(--ink);font-family:"Cinzel",serif;font-size:20px}
+.rankline b{color:var(--ink);font-family:"Cinzel","GFS Neohellenic",serif;font-size:20px}
 
 /* ===== 귀향 인증 카드 ===== */
 .modal .box.cert-box{background:var(--ink);color:var(--cream);max-width:560px;padding:30px 22px 22px;text-align:center}
@@ -772,7 +772,7 @@ const ART={
    ${CIRC(288,110,22,1)}<circle cx="288" cy="110" r="22" fill="${GOLD}" opacity=".08"/>
    ${SHIPL(200,250,1)}${SEA(272,5,5,10)}</g></svg>`,
  crew:()=>`<svg viewBox="0 0 400 400">${FRAME()}
-   <text x="200" y="118" text-anchor="middle" font-family="Cinzel" font-size="14" letter-spacing="10" fill="${GOLD}" opacity=".8">ΔΕΚΑ · X</text>
+   <text x="200" y="118" text-anchor="middle" font-family="Cinzel, GFS Neohellenic, serif" font-size="14" letter-spacing="10" fill="${GOLD}" opacity=".8">ΔΕΚΑ · X</text>
    ${P("M120 128 H280",.8,DIM)}
    ${Array.from({length:10},(_,i)=>{const col=i%5,row=Math.floor(i/5);return `<g class="pop" style="animation-delay:${.5+i*.24}s;transform-origin:${102+col*49}px ${180+row*64}px"><svg x="${82+col*49}" y="${158+row*64}" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="${row?GOLD:GOLD2}" stroke-width=".7" stroke-linejoin="round">${HELM}</svg></g>`}).join("")}
    ${P("M120 296 H280",.8,DIM)}</svg>`,
@@ -792,12 +792,12 @@ const ART={
    ${[[184,232],[200,238],[216,232],[192,252],[208,252]].map(([x,y])=>P(`M${x-5} ${y} L${x} ${y+5} L${x+5} ${y}`,.8,DIM)).join("")}
    ${P("M186 274 v9 M195 275 v9 M205 275 v9 M214 274 v9",1,GOLD)}
    ${P("M114 286 Q200 302 286 282",1.3)}${[0,1,2,3,4].map(i=>P(`M${132+i*32} ${290+(i%2?3:-1)} q9 ${i%2?11:-11} 19 ${i%2?4:-4}`,1,GOLD)).join("")}
-   <text x="200" y="344" text-anchor="middle" font-family="Cinzel" font-size="13" letter-spacing="12" fill="${GOLD}" opacity=".85">ΑΘΗΝΑ</text></svg>`,
+   <text x="200" y="344" text-anchor="middle" font-family="Cinzel, GFS Neohellenic, serif" font-size="13" letter-spacing="12" fill="${GOLD}" opacity=".85">ΑΘΗΝΑ</text></svg>`,
  coin:()=>`<svg viewBox="0 0 400 400">${FRAME()}
    ${P("M200 340 V258 C200 230 170 206 118 170",1.5)}${P("M200 258 C200 230 230 206 282 170",1.5)}
    ${P("M118 170 l-4 -2 M282 170 l4 -2",1.5)}
-   <text x="104" y="150" font-family="Cinzel" font-size="34" font-weight="700" fill="${GOLD2}">Α</text>
-   <text x="272" y="150" font-family="Cinzel" font-size="34" font-weight="700" fill="${GOLD2}">Β</text>
+   <text x="104" y="150" font-family="Cinzel, GFS Neohellenic, serif" font-size="34" font-weight="700" fill="${GOLD2}">Α</text>
+   <text x="272" y="150" font-family="Cinzel, GFS Neohellenic, serif" font-size="34" font-weight="700" fill="${GOLD2}">Β</text>
    <g class="spin" style="transform-origin:200px 128px">${CIRC(200,128,36,1.4)}${CIRC(200,128,30,.6,DIM)}
    ${P("M200 108 c-11 0 -14 10 -12 18 c1 9 6 15 12 15 c6 0 11 -6 12 -15 c2 -8 -1 -18 -12 -18z",1.1)}<circle cx="195" cy="119" r="2.5" fill="${GOLD2}"/><circle cx="205" cy="119" r="2.5" fill="${GOLD2}"/></g>
    ${P("M150 340 H250",.8,DIM)}</svg>`,
@@ -820,7 +820,7 @@ const ART={
    ${P("M44 262 Q96 222 150 240 Q196 200 246 230 Q300 206 356 262",1.5)}
    ${P("M132 168 q6 -6 12 0 q6 -6 12 0",.9,GOLD)}${P("M160 150 q4 -4 8 0 q4 -4 8 0",.8,DIM)}
    ${P("M40 262 H360",1.1)}${SHIPL(118,282,.26)}${SEA(290,3,3,10,DIM)}
-   <text x="200" y="344" text-anchor="middle" font-family="Cinzel" font-size="13" letter-spacing="12" fill="${GOLD}" opacity=".85">ΙΘΑΚΗ</text></g></svg>`,
+   <text x="200" y="344" text-anchor="middle" font-family="Cinzel, GFS Neohellenic, serif" font-size="13" letter-spacing="12" fill="${GOLD}" opacity=".85">ΙΘΑΚΗ</text></g></svg>`,
  title:()=>`<svg viewBox="0 0 400 400">${FRAME()}<g clip-path="url(#inner)">${SHIPL(200,230,.9)}${SEA(254,5,5,10)}</g></svg>`
 };
 
@@ -978,7 +978,7 @@ function ledgerHTML(cls,hl){
   const home=l.filter(x=>x.total>=GOAL).length;
   const rows=s.length?`<ol>${s.map((x,k)=>`<li class="${x.ts===hl?'new':''}"><span class="rk">${ROMAN[k]}</span><span class="nm">${esc(x.name)}</span><span class="sc">${x.total}<small>명</small></span></li>`).join("")}</ol>`
     :`<div class="empty">아직 오늘 돌아온 배가 없다.<br>첫 번째 오디세우스가 되어라.</div>`;
-  return `<div class="ledger ${cls}"><h4>오늘의 귀향 기록판</h4><div class="sub">NOSTOI · ${new Date().getMonth()+1}.${new Date().getDate()}</div>${rows}
+  return `<div class="ledger ${cls}"><h4>오늘의 귀향 기록판</h4><div class="sub">ΝΟΣΤΟΙ · ${new Date().getMonth()+1}.${new Date().getDate()}</div>${rows}
     <div class="stat">오늘 출항 <b>${l.length}</b>척 · 이타카 귀환 <b>${home}</b>척</div></div>`;
 }
 
@@ -986,7 +986,7 @@ function ledgerHTML(cls,hl){
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
 async function drawCert(){
   const t=S.teams[0],f=t.fin,tier=TIERS.find(x=>f.total>=x.min),ok=f.total>=GOAL;
-  try{await Promise.all(['700 64px "Noto Serif KR"','700 40px "Cinzel"','900 200px "Cinzel"','700 30px "Nanum Myeongjo"','400 24px "Noto Sans KR"'].map(x=>document.fonts.load(x,"오디세우스호 ΝΟΣΤΟΣ 0123")))}catch(e){}
+  try{await Promise.all(['700 30px "GFS Neohellenic"','700 64px "Noto Serif KR"','700 40px "Cinzel"','900 200px "Cinzel"','700 30px "Nanum Myeongjo"','400 24px "Noto Sans KR"'].map(x=>document.fonts.load(x,"오디세우스호 ΝΟΣΤΟΣ 0123")))}catch(e){}
   const W=1080,H=1440,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
   const CL="#e08a4c",CL2="#c8652e",CR="#f4d9b0";
   const g=x.createRadialGradient(W/2,H*.35,50,W/2,H*.4,H*.8);g.addColorStop(0,"#2a1a10");g.addColorStop(1,"#0d0805");x.fillStyle=g;x.fillRect(0,0,W,H);
@@ -997,7 +997,7 @@ async function drawCert(){
   x.save();x.beginPath();x.arc(cx,cy,R+14,0,7);x.fillStyle="#0a0604";x.fill();x.lineWidth=3;x.strokeStyle=CL;x.stroke();x.restore();
   if(art){x.save();x.beginPath();x.arc(cx,cy,R,0,7);x.clip();x.drawImage(art,cx-R,cy-R,R*2,R*2);x.restore()}
   x.textAlign="center";x.textBaseline="alphabetic";
-  x.fillStyle=CL;x.font='700 26px "Cinzel"';x.letterSpacing="10px";x.fillText("ΝΟΣΤΟΣ · 귀향 증서",cx,610);x.letterSpacing="0px";
+  x.fillStyle=CL;x.font='700 30px "GFS Neohellenic", "Cinzel"';x.letterSpacing="10px";x.fillText("ΝΟΣΤΟΣ · 귀향 증서",cx,610);x.letterSpacing="0px";
   let fs=72;x.font=`700 ${fs}px "Noto Serif KR"`;while(x.measureText(t.name).width>W-200&&fs>36){fs-=4;x.font=`700 ${fs}px "Noto Serif KR"`}
   x.fillStyle=CR;x.fillText(t.name,cx,705);
   x.font='400 28px "Nanum Myeongjo"';x.fillStyle="#e6cba4";
@@ -1057,7 +1057,7 @@ function crewPanel(){
   const gifts=Object.keys(CARDS).filter(c=>t.cards[c]>0).map(c=>`<div class="gift ${c==='curse'||c==='delay'?'curse':''}">${ico(c)}<div><b>${CARDS[c].name}${t.cards[c]>1?' ×'+t.cards[c]:''}</b>${CARDS[c].desc}</div></div>`).join("");
   const used=t.used.map(c=>`<div class="gift used">${ico(c)}<div><b>${CARDS[c].name}</b></div></div>`).join("");
   const ath=t.athena?`<div class="gift athena">${ico('athena')}<div><b>아테나의 가호</b>한 번, 그 시련의 결과를 없던 일로</div></div>`:`<div class="gift athena used">${ico('athena')}<div><b>아테나의 가호</b></div></div>`;
-  return `<div class="crew-panel"><div class="ship">${esc(t.name)}</div><div class="sub">ODYSSEUS · ΙΘΑΚΗ</div>
+  return `<div class="crew-panel"><div class="ship">${esc(t.name)}</div><div class="sub">ΟΔΥΣΣΕΥΣ · ΙΘΑΚΗ</div>
     <div class="crew-count"><span class="num ${S.flash||''}">${t.tokens}</span><div class="lbl">명의 동료가 살아 있다</div></div>
     <div class="helmets">${helms}</div>
     <div class="goal">귀향 조건: 동료 <b>${GOAL}명 이상</b></div>
@@ -1145,7 +1145,7 @@ function finalHTML(){
   const t=S.teams[0],f=t.fin,tier=TIERS.find(x=>f.total>=x.min),ok=f.total>=GOAL;
   const note=t.athenaRound===4&&(t.cards.curse||t.cards.delay)?" (아테나가 막아 줌)":"";
   const row=(l,v)=>`<tr><td>${l}</td><td>${v}</td></tr>`;
-  return `<div class="final-wrap"><div class="kicker">NOSTOS · 귀향</div>
+  return `<div class="final-wrap"><div class="kicker">ΝΟΣΤΟΣ · 귀향</div>
     <div class="score"><span class="n">${f.total}</span><small>명</small></div>
     <h2>${ok?"그대는 이타카로 돌아왔다!":(f.total>0?"이타카는 아직 멀다…":"바다가 모두를 데려갔다…")}</h2>
     <div style="font-size:16px;color:#2b1a0c">${ok?"도장과 간식을 받아 가라, 영웅이여.":"도장을 받아 가라. 다음 항해에서는 더 많은 동료를 지켜 내길."}</div>
