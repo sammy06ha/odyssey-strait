@@ -704,7 +704,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
   <ol>
     <li>시련마다 진행요원이 상황과 두 갈래 길(Λ·Β)을 들려준다.</li>
     <li><b>1분</b> 동안 팀원끼리 지혜를 모아 하나를 고른다.</li>
-    <li>다음 시련으로 넘어가기 전, 룰렛으로 뽑은 <b>미션</b>을 팀원 한 명이 성공해야 한다.</li>
+    <li>다음 섬에 상륙하려면 룰렛으로 뽑은 <b>미션</b>을 팀원 한 명이 성공해 상륙 허가를 받아야 한다.</li>
     <li>운명은 고른 뒤에야 드러난다. 동전, 퀴즈, 몸으로 하는 미션에 운명이 걸리기도 한다.</li>
     <li><b>아테나의 가호</b>: 한 판에 한 번, 그 시련의 결과를 없던 일로 만든다. 길을 고른 뒤, 결과가 드러나기 전에만.</li>
     <li>신과 망자에게서 선물이나 저주를 받기도 한다.</li>
@@ -940,9 +940,9 @@ function missionGate(done){
   const route=ROUTES[S.setIdx], k=route[S.round], place=RNAME[S.setIdx+"-"+S.round]||PL[k][0];
   S.usedGates=S.usedGates||[];
   const d=document.createElement("div"); d.className="gate";
-  d.innerHTML=`<div class="gate-box"><div class="vy-kicker">${fg("MISSION")}</div>
-    <h3>미션</h3>
-    <p class="gate-lead">팀원 한 명이 미션에 성공하면 다음 시련으로 넘어가요.</p>
+  d.innerHTML=`<div class="gate-box"><div class="vy-kicker">${fg("MISSION")} · 상륙 허가</div>
+    <h3>${esc(place)}에 닿았다</h3>
+    <p class="gate-lead">하지만 이 땅의 신들은 아무에게나 상륙을 허락하지 않는다.<br>팀원 한 명이 미션에 성공해야 배를 댈 수 있다.</p>
     <div class="gate-row"><div class="wheel"><div class="wheel-ptr"></div>${wheelSVG()}</div>
       <div class="gate-card" id="gateCard"><div class="gc-wait">룰렛이 돌아가는 중…</div></div></div></div>`;
   document.body.appendChild(d);
@@ -957,7 +957,7 @@ function missionGate(done){
     setTimeout(()=>{clearInterval(tk); try{gong()}catch(e){} const m=GATES[pick];
       card.innerHTML=`<div class="gc-name">미션 ${pick+1}</div>
         <div class="gc-how"><b>방법</b>${esc(m.how)}</div><div class="gc-pass"><b>통과</b>${esc(m.pass)}</div>
-        <div class="controls"><button class="inkbtn big" data-g="pass">성공! 다음 시련으로</button><button class="inkbtn ghost sm" data-g="again">다시 돌리기</button></div>`;
+        <div class="controls"><button class="inkbtn big" data-g="pass">성공! 상륙하라</button><button class="inkbtn ghost sm" data-g="again">다시 돌리기</button></div>`;
       card.classList.remove("show"); void card.offsetWidth; card.classList.add("show");},4100);
   };
   d.addEventListener("click",e=>{const b=e.target.closest("[data-g]"); if(!b) return;
