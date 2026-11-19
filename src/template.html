@@ -612,6 +612,27 @@ img.helmet.ghost{position:absolute;inset:0}
 @media (max-width:880px){.time-end{font-size:16px}.read-timer{gap:12px}}
 @media (prefers-reduced-motion:reduce){.time-end.urge,.choices.urge .choice{animation:none}}
 
+
+/* ===== 항해 연출 ===== */
+.voyage{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#1b110bcc,#070403f2);animation:vyIn .45s ease both}
+.voyage.out{animation:vyOut .45s ease both}
+@keyframes vyIn{from{opacity:0}to{opacity:1}}@keyframes vyOut{to{opacity:0}}
+.vy-box{width:min(92vw,calc(78vh * 1.6),1100px);text-align:center;position:relative}
+.vy-kicker{font-family:"Cinzel",serif;letter-spacing:.3em;font-size:13px;color:var(--clay2);margin-bottom:10px}
+.vy-map{border-radius:2px;overflow:hidden;box-shadow:0 0 0 3px #140c07,0 0 0 4px #e08a4c99,0 30px 80px #000;animation:vyZoom 4s ease-out both}
+.vy-map .seamap{aspect-ratio:1.6}
+@keyframes vyZoom{from{transform:scale(.94)}to{transform:scale(1)}}
+.seamap .rt-voy{stroke:#140c07;stroke-width:inherit}
+#vship image{filter:drop-shadow(0 0 2px #fff3d6) drop-shadow(0 0 6px #f4d9b0cc)}
+.vy-cap{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;color:var(--cream);font-family:"Noto Serif KR",serif}
+.vy-cap span{color:#c8a882;font-size:17px}
+.vy-cap i{display:inline-block;width:60px;height:2px;background:linear-gradient(90deg,#c8a882,#f4d9b0);position:relative}
+.vy-cap i::after{content:"";position:absolute;right:-2px;top:-4px;border:5px solid transparent;border-left:8px solid #f4d9b0}
+.vy-cap b{font-size:clamp(22px,3vw,30px)}
+.vy-cap .vy-gr{font-size:15px;color:var(--clay2);letter-spacing:.15em}
+.vy-skip{position:absolute;right:0;top:-6px;background:none;border:1px solid #e08a4c66;color:#c8a882;font-size:13px;padding:5px 12px;cursor:pointer;border-radius:2px}
+.vy-skip:hover{color:#fff;border-color:#e08a4c}
+
 /* ===== spacing polish ===== */
 .stage.painted .cap{position:static!important;display:block;margin:22px 0 0 auto!important;max-width:100%!important;text-align:right;font-size:12px;line-height:1.5;color:#efe3c899}
 .stage.painted{padding-bottom:58px!important}
@@ -743,6 +764,29 @@ function startGame(){
 const R=()=>SETS[S.setIdx].rounds[S.round];
 const RM=(()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}})();
 function flashFx(kind,html=""){ if(RM) return; const d=document.createElement("div"); d.className="flash "+kind; d.innerHTML=html; document.body.appendChild(d); setTimeout(()=>d.remove(),1500); }
+
+function voyageIntro(done){
+  const i=S.round, route=ROUTES[S.setIdx], k=route[i], name=RNAME[S.setIdx+"-"+i]||PL[k][0];
+  const from=i===0?"트로이":(RNAME[S.setIdx+"-"+(i-1)]||PL[route[i-1]][0]);
+  const d=document.createElement("div"); d.className="voyage";
+  d.innerHTML=`<div class="vy-box"><div class="vy-kicker">${fg("VOYAGE")} · ${i===0?"출항":"다음 항로"}</div>
+    <div class="vy-map">${mapSVG({done:i,cur:i,final:true,voyage:i})}</div>
+    <div class="vy-cap"><span>${esc(from)}</span><i></i><b>${esc(name)}</b> <span class="fg vy-gr">${PL[k][1]}</span></div>
+    <button class="vy-skip" type="button">건너뛰기</button></div>`;
+  document.body.appendChild(d);
+  const path=d.querySelector("#vleg"), ship=d.querySelector("#vship");
+  let ended=false; const T=2800, t0=performance.now()+500;
+  const finish=()=>{if(ended)return;ended=true;d.classList.add("out");setTimeout(()=>{d.remove();done&&done()},450)};
+  d.querySelector(".vy-skip").onclick=finish; d.onclick=e=>{if(e.target===d)finish()};
+  if(path&&ship){const L=path.getTotalLength(); path.style.strokeDasharray=L; path.style.strokeDashoffset=L;
+    const step=now=>{if(ended)return; let u=Math.min(1,Math.max(0,(now-t0)/T)); const e=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+      const p=path.getPointAtLength(e*L), q=path.getPointAtLength(Math.min(L,e*L+3));
+      path.style.strokeDashoffset=L*(1-e); const flip=q.x<p.x-0.01?-1:1; const bob=Math.sin(now/180)*1.2;
+      ship.setAttribute("transform",`translate(${p.x},${p.y+bob}) scale(${flip},1)`); ship.style.opacity=u>0||now>t0-300?1:0;
+      if(u<1) requestAnimationFrame(step); else setTimeout(finish,900)};
+    requestAnimationFrame(step); try{tone(196,.5,"sine",.05)}catch(e){}}
+  else setTimeout(finish,1500);
+}
 function roundIntro(){
   if(RM) return;
   const r=R(), d=document.createElement("div"); d.className="intro";
@@ -760,8 +804,9 @@ function embers(){
     for(const p of ps){p.y-=p.v; p.x+=Math.sin(t*2+p.w)*.6; x.globalAlpha=Math.max(0,Math.min(1,(5-t)/2)); x.fillStyle=p.r>2.6?"#f3dca2":"#d9b46e"; x.beginPath(); x.arc(p.x,p.y,p.r,0,7); x.fill()}
     if(t<5) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height)})();
 }
-function startRound(){preload(S.setIdx,S.round+1);S.roundStart=performance.now();S.phase="read";const t=S.teams[0];t.choice=null;t.useAthena=false;t.res=null;S.fx={enter:true};stopTimer();S.timeLeft=60;S.timerMax=60;S.timeUp=false;render();window.scrollTo({top:0,behavior:"smooth"});roundIntro();
-  const rid=S.roundStart; setTimeout(()=>{if(S.roundStart===rid&&S.phase==="read"&&!timerId)startTimer(S.timeLeft||60,60)},RM?300:3000)}
+function startRound(){preload(S.setIdx,S.round+1);S.roundStart=performance.now();S.phase="read";const t=S.teams[0];t.choice=null;t.useAthena=false;t.res=null;S.fx={enter:true};stopTimer();S.timeLeft=60;S.timerMax=60;S.timeUp=false;render();window.scrollTo({top:0,behavior:"smooth"});
+  const rid=S.roundStart, go=()=>{ if(S.roundStart!==rid) return; roundIntro(); setTimeout(()=>{if(S.roundStart===rid&&S.phase==="read"&&!timerId)startTimer(S.timeLeft||60,60)},RM?300:3000)};
+  if(RM) go(); else voyageIntro(go)}
 
 /* ---------- 소리 ---------- */
 function ensureAudio(){
@@ -1133,21 +1178,22 @@ function mapSVG(o){
   const vb=`${x0.toFixed(0)} ${y0.toFixed(0)} ${(x1-x0).toFixed(0)} ${(y1-y0).toFixed(0)}`, sc=(x1-x0)/(big?700:(o.final?620:300))*1.0;
   const P=k=>MP[k].join(" ");
   const dash=`stroke-dasharray:${4*sc} ${5*sc}`;
-  const seg=(a,b,cls)=>{const d=LEGS[a+">"+b]||`M${P(a)}L${P(b)}`; const anim=cls.includes("rt-anim"); return `<path class="${cls}" ${anim?'pathLength="1"':''} d="${d}" style="${cls.includes("rt-done")?'':dash}"/>`};
-  let lines=seg("troy",route[0],"rt-prior");
-  for(let i=1;i<route.length;i++) lines+=seg(route[i-1],route[i], i<=done?(i===done&&o.anim?"rt-done rt-anim":"rt-done"):"rt-next");
+  const seg=(a,b,cls)=>{const d=LEGS[a+">"+b]||`M${P(a)}L${P(b)}`; const anim=cls.includes("rt-anim"); return `<path class="${cls}" ${cls==="rt-voy"?'id="vleg"':''} ${anim?'pathLength="1"':''} d="${d}" style="${cls.includes("rt-done")||cls==="rt-voy"?'':dash}"/>`};
+  const V=o.voyage;
+  let lines=V===0?seg("troy",route[0],"rt-voy"):seg("troy",route[0],"rt-prior");
+  for(let i=1;i<route.length;i++) lines+=V===i?seg(route[i-1],route[i],"rt-voy"):seg(route[i-1],route[i], i<=done?(i===done&&o.anim?"rt-done rt-anim":"rt-done"):"rt-next");
   if(route[4]!=="ithaca") lines+=seg(route[4],"ithaca", o.home?"rt-done rt-anim":"rt-next");
   const lab=(k,txt,cls)=>{const [dx,dy,an]=LBL[k];if(dy>18&&an==="middle"){}return `<text class="${cls}" x="${MP[k][0]+dx*sc}" y="${MP[k][1]+dy*sc}" text-anchor="${an}" style="font-size:${(big?14:12)*sc}px">${txt}</text>`};
   let stops="";
   route.forEach((k,i)=>{const st=i<done?"v":(i===cur?"c":"f"); const R=(big?11:7)*sc;
     stops+=`<g class="st ${st}">${st==="c"?`<circle class="pulse" cx="${MP[k][0]}" cy="${MP[k][1]}" r="${R}"/>`:""}<circle cx="${MP[k][0]}" cy="${MP[k][1]}" r="${R}"/><text x="${MP[k][0]}" y="${MP[k][1]+R*.38}" text-anchor="middle" style="font-size:${R*1.05}px">${ROMAN[i]}</text></g>`;
-    if(big) stops+=lab(k,esc(RNAME[S.setIdx+"-"+i]||PL[k][0]),"lb"+(st==="c"?" lc":""));});
+    if(big||(V!=null&&i===V)) stops+=lab(k,esc(RNAME[S.setIdx+"-"+i]||PL[k][0]),"lb"+(st==="c"?" lc":""));});
   if(o.wreck!=null){const k=route[o.wreck];stops+=`<text class="wreck" x="${MP[k][0]-14*sc}" y="${MP[k][1]+4*sc}" text-anchor="end" style="font-size:${13*sc}px">난파</text>`}
   const home=`<g class="home"><circle cx="${MP.ithaca[0]}" cy="${MP.ithaca[1]}" r="${10*sc}"/><circle cx="${MP.ithaca[0]}" cy="${MP.ithaca[1]}" r="${5*sc}"/></g>${route[4]!=="ithaca"?lab("ithaca","이타카","lb lh"):""}`;
   const troy=`<g class="troy"><rect x="${MP.troy[0]-5*sc}" y="${MP.troy[1]-5*sc}" width="${10*sc}" height="${10*sc}" transform="rotate(45 ${P("troy").replace(" ",",")})"/></g>${lab("troy","트로이","lb lt")}`;
   return `<svg class="seamap ${big?'big':''}" viewBox="${vb}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="오디세우스의 항해도">
    <image href="map/sea.webp" x="0" y="0" width="1024" height="1024" preserveAspectRatio="none"/>
-   <g class="rt" style="stroke-width:${2.4*sc}px">${lines}</g>${troy}${home}${stops}</svg>`;
+   <g class="rt" style="stroke-width:${2.4*sc}px">${lines}</g>${troy}${home}${stops}${V!=null?`<g id="vship" style="opacity:0"><image href="map/ship.webp" x="${-40*sc}" y="${-48*sc}" width="${80*sc}" height="${50*sc}"/></g>`:""}</svg>`;
 }
 function mapStatus(){const t=S.teams[0]; const d=S.phase==="origin"||S.phase==="final"?S.round+1:S.round; return {done:d,cur:S.phase==="final"?-1:S.round}}
 function openMap(){
