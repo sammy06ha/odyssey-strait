@@ -592,6 +592,26 @@ img.helmet.ghost{position:absolute;inset:0}
 .final-map{max-width:620px;margin:22px auto 6px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 3px #140c07,0 0 0 4px #e08a4c88}
 .final-map .seamap{aspect-ratio:1.6}
 
+
+/* ===== 자동 카운트다운 ===== */
+.read-timer{display:flex;align-items:center;gap:16px;margin-top:20px}
+.read-timer .mini-ring .ring{width:72px;height:72px}
+.read-timer .mini-ring .ring .t{font-size:24px}
+.read-timer .rt-text{flex:1;min-width:0}
+.read-timer .rt-main{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:18px;color:var(--cream)}
+.read-timer .rt-main:empty{display:none}
+.read-timer .hint{margin-top:4px}
+.time-end{display:none;font-family:"Noto Serif KR",serif;font-weight:700;font-size:20px;color:#f08a6e}
+.time-end.show{display:block}
+.time-end.urge{animation:urgeShake .6s ease 2,urgeGlow 1.6s ease-in-out infinite alternate}
+@keyframes urgeShake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes urgeGlow{from{text-shadow:none}to{text-shadow:0 0 14px #f08a6e88}}
+.choices.urge .choice{animation:choicePulse 1.4s ease-in-out infinite}
+.choices.urge .choice:nth-child(2){animation-delay:.7s}
+@keyframes choicePulse{0%,100%{box-shadow:0 0 0 0 #f4d9b000}50%{box-shadow:0 0 0 3px #f4d9b0aa}}
+@media (max-width:880px){.time-end{font-size:16px}.read-timer{gap:12px}}
+@media (prefers-reduced-motion:reduce){.time-end.urge,.choices.urge .choice{animation:none}}
+
 /* ===== spacing polish ===== */
 .stage.painted .cap{position:static!important;display:block;margin:22px 0 0 auto!important;max-width:100%!important;text-align:right;font-size:12px;line-height:1.5;color:#efe3c899}
 .stage.painted{padding-bottom:58px!important}
@@ -740,7 +760,8 @@ function embers(){
     for(const p of ps){p.y-=p.v; p.x+=Math.sin(t*2+p.w)*.6; x.globalAlpha=Math.max(0,Math.min(1,(5-t)/2)); x.fillStyle=p.r>2.6?"#f3dca2":"#d9b46e"; x.beginPath(); x.arc(p.x,p.y,p.r,0,7); x.fill()}
     if(t<5) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height)})();
 }
-function startRound(){preload(S.setIdx,S.round+1);S.roundStart=performance.now();S.phase="read";const t=S.teams[0];t.choice=null;t.useAthena=false;t.res=null;S.fx={enter:true};render();window.scrollTo({top:0,behavior:"smooth"});roundIntro()}
+function startRound(){preload(S.setIdx,S.round+1);S.roundStart=performance.now();S.phase="read";const t=S.teams[0];t.choice=null;t.useAthena=false;t.res=null;S.fx={enter:true};stopTimer();S.timeLeft=60;S.timerMax=60;S.timeUp=false;render();window.scrollTo({top:0,behavior:"smooth"});roundIntro();
+  const rid=S.roundStart; setTimeout(()=>{if(S.roundStart===rid&&S.phase==="read"&&!timerId)startTimer(S.timeLeft||60,60)},RM?300:3000)}
 
 /* ---------- 소리 ---------- */
 function ensureAudio(){
@@ -929,12 +950,13 @@ function nextScene(){ if(cineIdx<STORY.length-1){cineIdx++;playScene()} }
 function prevScene(){ if(cineIdx>0){cineIdx--;playScene()} }
 
 /* ---------- 타이머 ---------- */
-function startTimer(sec){
-  stopTimer(); S.timeLeft=sec; S.timerMax=sec; renderTimerOnly();
+function startTimer(sec,max){
+  stopTimer(); S.timeLeft=sec; S.timerMax=max||sec; renderTimerOnly();
   timerId=setInterval(()=>{S.timeLeft--; if(S.timeLeft<=5&&S.timeLeft>0)tone(660,.12,"sine",.12);
-    if(S.timeLeft<=0){S.timeLeft=0;stopTimer();gong()}
+    if(S.timeLeft<=0){S.timeLeft=0;S.timeUp=true;stopTimer();gong();timeUpFx()}
     renderTimerOnly();},1000);
 }
+function timeUpFx(){const n=document.getElementById("timeEndNote");if(n){n.classList.remove("urge");void n.offsetWidth;n.classList.add("urge")}document.querySelectorAll(".choices").forEach(c=>c.classList.add("urge"))}
 function stopTimer(){if(timerId){clearInterval(timerId);timerId=null}}
 function ringHTML(id,dark){
   const max=S.timerMax||60,left=S.timeLeft,r=64,c=2*Math.PI*r,off=c*(1-left/max);
@@ -943,7 +965,8 @@ function ringHTML(id,dark){
 }
 function renderTimerOnly(){
   document.querySelectorAll(".ring").forEach(el=>{el.outerHTML=ringHTML(el.id,true)});
-  const end=document.getElementById("timeEndNote"); if(end) end.style.display=S.timeLeft===0?"block":"none";
+  const end=document.getElementById("timeEndNote"); if(end){ if(end.classList.contains("time-end")) end.classList.toggle("show",S.timeLeft===0); else end.style.display=S.timeLeft===0?"block":"none"; }
+  const rm=document.getElementById("rtMain"); if(rm) rm.textContent=S.timeLeft===0?"":"동료들과 지혜를 모으라";
 }
 
 /* ---------- 결과 계산 ---------- */
@@ -1181,8 +1204,12 @@ function stageHTML(){
   if(S.phase==="final") return finalHTML();
   const r=R(), t=S.teams[0];
   const head=`<div class="kicker">${fg("TRIAL "+ROMAN[S.round])} · 제${S.round+1}의 시련</div><h2>${esc(r.title)}</h2>`;
-  if(S.phase==="read") return `${head}<div class="address">오디세우스여, 시련이 닥쳤다.</div><p class="situ">${esc(r.situ)}</p>${choicesHTML(r)}
-    <div class="controls"><button class="inkbtn" data-act="discuss">지혜를 모으라 (1분)</button><span class="hint">길이 정해졌다면 카드를 바로 눌러도 돼요</span></div>`;
+  if(S.phase==="read") return `${head}<div class="address">오디세우스여, 시련이 닥쳤다.</div><p class="situ">${esc(r.situ)}</p>${choicesHTML(r).replace('class="choices"',`class="choices ${S.timeUp?'urge':''}"`)}
+    <div class="read-timer"><div class="mini-ring">${ringHTML("ring1",true)}</div>
+      <div class="rt-text"><div class="rt-main" id="rtMain">${S.timeUp?'':'동료들과 지혜를 모으라'}</div>
+        <div id="timeEndNote" class="time-end ${S.timeUp?'show':''}">시간이 다했다, 오디세우스여! 이제 길을 고르라.</div>
+        <div class="hint">길이 정해졌다면 카드를 바로 눌러요</div></div>
+      <button class="inkbtn ghost sm" data-act="plus15">+15초</button></div>`;
   if(S.phase==="discuss") return `${head}
     <div class="timer">${ringHTML("ring1",true)}<div><div style="font-family:'Noto Sans KR';font-size:24px">동료들과 지혜를 모으라</div><div style="margin-top:6px;font-size:15px;color:var(--bone2)">오디세이의 이야기를 떠올려 보라.</div><div id="timeEndNote" style="display:${S.timeLeft===0?'block':'none'};margin-top:10px;font-family:'Noto Sans KR';font-size:20px;color:#e0705a">시간이 다했다. 길을 고르라!</div></div></div>
     ${choicesHTML(r)}
@@ -1332,9 +1359,9 @@ document.addEventListener("click",e=>{
   if(a==="sail"){const n=document.getElementById("shipName"); S.name=(n&&n.value.trim())||"오디세우스호"; clearCine(); gong(); startGame(); setVol(VOL.game); return}
   if(a==="reset"){ if(el.dataset.confirm!=="1"){el.dataset.confirm="1";el.textContent="정말 처음으로?";setTimeout(()=>{if(el){el.dataset.confirm="";el.textContent="처음으로"}},2500);return} stopTimer();clearCine();initTitle();return}
   if(a==="discuss"){ensureAudio();S.phase="discuss";render();startTimer(60);return}
-  if(a==="plus15"){S.timeLeft+=15;S.timerMax=Math.max(S.timerMax,S.timeLeft);if(!timerId)startTimer(S.timeLeft);renderTimerOnly();return}
+  if(a==="plus15"){S.timeLeft+=15;S.timerMax=Math.max(S.timerMax,S.timeLeft);S.timeUp=false;document.querySelectorAll(".choices.urge").forEach(c=>c.classList.remove("urge"));if(!timerId)startTimer(S.timeLeft,S.timerMax);renderTimerOnly();return}
   if(a==="toChoose"){stopTimer();S.phase="choose";render();return}
-  if(a==="backRead"){S.phase="read";render();return}
+  if(a==="backRead"){S.phase="read";render();if(S.timeLeft>0)startTimer(S.timeLeft,S.timerMax);return}
   if(a==="pick"){ if(S.phase==="read"||S.phase==="discuss"){stopTimer();S.phase="choose"} S.teams[0].choice=el.dataset.c; tone(523,.15,"triangle",.06); render(); return}
   if(a==="reveal"){enterResolve();return}
   if(a==="flip"){flip(k);return}
