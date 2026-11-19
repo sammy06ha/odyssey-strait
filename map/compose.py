@@ -30,6 +30,30 @@ for y in range(76,950,15):
         if dland[Y,X]>14 and noise[Y,X]>.55 and random.random()<.7:
             s=random.uniform(4,7)
             mount+=f'<path d="M{xx-s:.1f} {yy+s*.55:.1f}L{xx:.1f} {yy-s*.6:.1f}L{xx+s:.1f} {yy+s*.55:.1f}M{xx-s*.3:.1f} {yy+s*.1:.1f}L{xx+s*.15:.1f} {yy+s*.55:.1f}"/>'
+C='#d9773a'; INK='#150d08'
+# meander unit 48x22 scaled x1.6 -> band 36px tall
+def unit(x,y,k):  # k = scale
+    p=f'<path d="M{x+4*k} {y+20*k}V{y+5*k}H{x+23*k}V{y+17*k}H{x+9*k}V{y+9*k}H{x+18*k}V{y+13*k}H{x+13*k}" fill="none" stroke="{C}" stroke-width="{2*k}" stroke-linecap="square"/>'
+    p+=f'<rect x="{x+29*k}" y="{y+4*k}" width="{14*k}" height="{14*k}" fill="none" stroke="{C}" stroke-width="{2*k}"/>'
+    p+=f'<path d="M{x+29*k} {y+4*k}L{x+43*k} {y+18*k}M{x+43*k} {y+4*k}L{x+29*k} {y+18*k}" stroke="{C}" stroke-width="{1.4*k}"/>'
+    return p
+k=1.5; band_h=22*k; M=14; T=M+band_h+8  # outer margin, inner edge
+L=1024
+inner=L-2*T
+n=round((L-2*M-2*band_h)/(48*k)); ul=(L-2*M-2*band_h)/n  # unit length along side
+def side():
+    g=''
+    for i in range(n):
+        g+=f'<g transform="translate({M+band_h+i*ul+(ul-48*k)/2:.2f},0)">'+unit(0,M,k)+'</g>'
+    return g
+top=side()
+frame=f'<rect x="0" y="0" width="{L}" height="{L}" fill="none" stroke="{INK}" stroke-width="{2*T}"/>'
+frame+=f'<rect x="{M-5}" y="{M-5}" width="{L-2*M+10}" height="{L-2*M+10}" fill="none" stroke="{C}" stroke-width="2"/>'
+frame+=f'<rect x="{T-4}" y="{T-4}" width="{L-2*T+8}" height="{L-2*T+8}" fill="none" stroke="{C}" stroke-width="2"/>'
+for rot in (0,90,180,270):
+    frame+=f'<g transform="rotate({rot} 512 512)">{top}</g>'
+for (cx,cy) in ((M,M),(L-M-band_h,M),(M,L-M-band_h),(L-M-band_h,L-M-band_h)):
+    frame+=f'<rect x="{cx+4}" y="{cy+4}" width="{band_h-8}" height="{band_h-8}" fill="none" stroke="{C}" stroke-width="2"/><circle cx="{cx+band_h/2}" cy="{cy+band_h/2}" r="4" fill="{C}"/>'
 svg=f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
 <defs>
 <radialGradient id="lg" cx="45%" cy="45%" r="70%"><stop offset="0" stop-color="#e2955a"/><stop offset=".6" stop-color="#c8652e"/><stop offset="1" stop-color="#8e3f17"/></radialGradient>
@@ -52,6 +76,6 @@ svg=f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1
 </g>
 {dec}
 <rect width="1024" height="1024" filter="url(#grain)"/>
-<image href="{b64('/tmp/mapai/ring.png')}" x="0" y="0" width="1024" height="1024"/>
+{frame}
 </svg>'''
 open('/tmp/mapai/compose.html','w').write('<body style="margin:0;background:#000">'+svg+'</body>')
