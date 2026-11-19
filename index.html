@@ -642,7 +642,13 @@ img.helmet.ghost{position:absolute;inset:0}
 .gate-box h3{font-family:"Noto Serif KR",serif;font-size:clamp(24px,3.2vw,34px);color:var(--cream);margin:4px 0 8px}
 .gate-lead{color:#e6cba4;font-family:"Nanum Myeongjo",serif;font-size:17px;line-height:1.75;max-width:640px;margin:0 auto 20px}
 .gate-row{display:flex;gap:28px;align-items:center;justify-content:center;flex-wrap:wrap}
-.wheel{position:relative;width:min(340px,80vw);flex:none}
+.wheel{position:relative;width:min(340px,80vw);flex:none;background:none;border:none;padding:0;margin-bottom:36px;cursor:pointer;border-radius:50%}
+.wheel:focus-visible{outline:2px solid #f4d9b0;outline-offset:6px}
+.wheel.ready .wheel-svg{animation:wheelHint 1.6s ease-in-out infinite}
+@keyframes wheelHint{0%,100%{transform:rotate(0)}50%{transform:rotate(6deg)}}
+.wheel-tap{position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);white-space:nowrap;font-family:"Noto Serif KR",serif;font-weight:700;font-size:15px;color:var(--cream);opacity:0;transition:opacity .3s}
+.wheel.ready .wheel-tap{opacity:1;animation:tapBlink 1.6s ease-in-out infinite}
+@keyframes tapBlink{50%{opacity:.45}}
 .wheel-svg{display:block;width:100%;height:auto;filter:drop-shadow(0 16px 30px #000)}
 .wheel-rot{transform-origin:160px 160px}
 .wheel-ptr{position:absolute;left:50%;top:-10px;transform:translateX(-50%);width:0;height:0;border:14px solid transparent;border-top:24px solid #f4d9b0;z-index:2;filter:drop-shadow(0 2px 3px #000)}
@@ -943,27 +949,26 @@ function missionGate(done){
   d.innerHTML=`<div class="gate-box"><div class="vy-kicker">${fg("MISSION")} · 상륙 허가</div>
     <h3>${esc(place)}에 닿았다</h3>
     <p class="gate-lead">하지만 이 땅의 신들은 아무에게나 상륙을 허락하지 않는다.<br>팀원 한 명이 미션에 성공해야 배를 댈 수 있다.</p>
-    <div class="gate-row"><div class="wheel"><div class="wheel-ptr"></div>${wheelSVG()}</div>
-      <div class="gate-card" id="gateCard"><div class="gc-wait">룰렛이 돌아가는 중…</div></div></div></div>`;
+    <div class="gate-row"><button type="button" class="wheel ready" aria-label="룰렛 돌리기"><div class="wheel-ptr"></div>${wheelSVG()}<span class="wheel-tap">눌러서 돌리기</span></button>
+      <div class="gate-card" id="gateCard"><div class="gc-wait">룰렛을 눌러 미션을 뽑으세요</div></div></div></div>`;
   document.body.appendChild(d);
-  let rot=0, cur=-1;
-  const spin=()=>{
+  let rot=0, cur=-1, spinning=false;
+  const spin=()=>{ if(spinning) return; spinning=true; const wb=d.querySelector(".wheel"); wb.classList.remove("ready");
     const pool=GATES.map((_,i)=>i).filter(i=>!S.usedGates.includes(i)&&i!==cur); const list=pool.length?pool:GATES.map((_,i)=>i).filter(i=>i!==cur);
     const pick=list[Math.floor(Math.random()*list.length)]; cur=pick;
     const n=GATES.length, target=360-(pick*360/n); rot=rot-(rot%360)+360*5+target;
     const w=d.querySelector(".wheel-rot"); w.style.transition="transform 4s cubic-bezier(.17,.67,.14,1)"; w.style.transform=`rotate(${rot}deg)`;
     const card=d.querySelector("#gateCard"); card.innerHTML=`<div class="gc-wait">룰렛이 돌아가는 중…</div>`;
     let ticks=0; const tk=setInterval(()=>{ticks++; try{tone(880-ticks*12,.03,"square",.03)}catch(e){} if(ticks>28)clearInterval(tk)},120);
-    setTimeout(()=>{clearInterval(tk); try{gong()}catch(e){} const m=GATES[pick];
+    setTimeout(()=>{spinning=false; clearInterval(tk); try{gong()}catch(e){} const m=GATES[pick];
       card.innerHTML=`<div class="gc-name">미션 ${pick+1}</div>
         <div class="gc-how"><b>방법</b>${esc(m.how)}</div><div class="gc-pass"><b>통과</b>${esc(m.pass)}</div>
         <div class="controls"><button class="inkbtn big" data-g="pass">성공! 상륙하라</button><button class="inkbtn ghost sm" data-g="again">다시 돌리기</button></div>`;
       card.classList.remove("show"); void card.offsetWidth; card.classList.add("show");},4100);
   };
-  d.addEventListener("click",e=>{const b=e.target.closest("[data-g]"); if(!b) return;
+  d.addEventListener("click",e=>{ if(e.target.closest(".wheel")){ if(!spinning) spin(); return } const b=e.target.closest("[data-g]"); if(!b) return;
     if(b.dataset.g==="again"){spin();return}
     if(b.dataset.g==="pass"){S.usedGates.push(cur); done&&done(); d.classList.add("out"); setTimeout(()=>d.remove(),450)}});
-  setTimeout(spin,700);
 }
 function voyageIntro(done){
   const i=S.round, route=ROUTES[S.setIdx], k=route[i], name=RNAME[S.setIdx+"-"+i]||PL[k][0];
