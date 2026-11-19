@@ -667,6 +667,49 @@ img.helmet.ghost{position:absolute;inset:0}
 .gate-card .inkbtn.ghost:hover{color:#fff;border-color:var(--clay2)}
 @media (max-width:880px){.gate-lead{font-size:15px}.gate-row{gap:18px}}
 
+
+/* ===== 귀향 장면 ===== */
+.home-cine{position:fixed;inset:0;z-index:70;overflow:hidden;background:#070403;animation:vyIn .8s ease both}
+.home-cine.out{animation:vyOut .9s ease both}
+.hc-cam{position:absolute;inset:0;animation:hcPush 9.2s cubic-bezier(.3,.1,.3,1) both;transform-origin:58% 62%}
+@keyframes hcPush{from{transform:scale(1.02)}to{transform:scale(1.16)}}
+.hc-sky{position:absolute;inset:0;background:linear-gradient(#3a1d0e 0%,#8e3f17 32%,#d9773a 52%,#f0b075 60%,#c8652e 61%,#a9501f 100%);filter:brightness(.55);animation:hcDawn 6s 1s ease forwards}
+@keyframes hcDawn{to{filter:brightness(1.05)}}
+.hc-sun{position:absolute;left:58%;top:61%;width:min(26vw,300px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-10%);background:radial-gradient(circle,#fff3d6 0%,#f6d39a 35%,#f0b07500 70%);opacity:.0;animation:hcSun 6s 1.4s ease forwards}
+@keyframes hcSun{to{opacity:1;transform:translate(-50%,-115%)}}
+.hc-island{position:absolute;left:0;right:0;bottom:39%;width:100%;height:min(20vh,22vw);transform-origin:58% 100%;transform:scaleY(.35);opacity:.0;animation:hcIsle 5.5s 1.6s ease forwards}
+@keyframes hcIsle{60%{opacity:1}to{opacity:1;transform:scaleY(1)}}
+.hc-birds{position:absolute;left:62%;top:30%;width:22vw;opacity:0;animation:hcBirds 5s 4s ease forwards}
+@keyframes hcBirds{to{opacity:.9;transform:translate(8vw,-4vh)}}
+.hc-birds .gull{animation:flap .7s ease-in-out infinite alternate}
+.hc-birds .g0{transform:translate(40px,40px)}.hc-birds .g1{transform:translate(90px,20px)}.hc-birds .g2{transform:translate(150px,52px) scale(.8)}.hc-birds .g3{transform:translate(210px,30px) scale(.7)}.hc-birds .g4{transform:translate(260px,60px) scale(.6)}
+@keyframes flap{to{stroke-width:1.4}}
+.hc-sea{position:absolute;left:0;right:0;bottom:0;height:39%;background:linear-gradient(#c8652e,#8e3f17 70%,#5a2810)}
+.hc-wave{position:absolute;left:-10%;right:-10%;height:40px;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%2240%22%3E%3Cpath%20d%3D%22M0%2026%20q15%20-14%2030%200%20t30%200%20t30%200%20t30%200%22%20fill%3D%22none%22%20stroke%3D%22%23140c07%22%20stroke-width%3D%222.4%22%20opacity%3D%22.55%22%2F%3E%3Cpath%20d%3D%22M15%2034%20q8%20-6%2015%200%22%20fill%3D%22none%22%20stroke%3D%22%23140c07%22%20stroke-width%3D%221.6%22%20opacity%3D%22.35%22%2F%3E%3C%2Fsvg%3E") repeat-x 0 0/120px 40px}
+.hc-wave.w1{top:6%;opacity:.55;animation:waveMove 7s linear infinite;transform:scaleY(.6)}
+.hc-wave.w2{top:34%;opacity:.8;animation:waveMove 5s linear infinite reverse;background-size:180px 60px;height:60px}
+.hc-wave.w3{top:68%;opacity:1;animation:waveMove 3.6s linear infinite;background-size:260px 86px;height:86px}
+@keyframes waveMove{to{background-position:-360px 0}}
+.hc-ship{position:absolute;bottom:9%;left:6%;width:min(34vw,420px);filter:drop-shadow(0 6px 10px #0006);animation:hcShip 9.2s cubic-bezier(.35,.1,.3,1) forwards,bob 2.4s ease-in-out infinite}
+@keyframes hcShip{from{left:-10%;transform:scale(1.05);transform-origin:50% 100%}to{left:24%;transform:scale(.5);transform-origin:50% 100%}}
+@keyframes bob{50%{margin-bottom:-10px;rotate:-1.5deg}}
+.hc-fog{position:absolute;inset:-10%;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% 55%,#f4d9b0d0,#f4d9b000 70%);filter:blur(8px)}
+.hc-fog.f1{animation:fogA 5.5s .3s ease forwards}
+.hc-fog.f2{background:radial-gradient(ellipse 50% 35% at 30% 60%,#f4d9b0c0,#f4d9b000 70%);animation:fogB 6s .6s ease forwards}
+.hc-fog.f3{background:radial-gradient(ellipse 45% 30% at 75% 58%,#f4d9b0b0,#f4d9b000 70%);animation:fogC 6.5s .2s ease forwards}
+@keyframes fogA{to{opacity:0;transform:scale(1.4)}}@keyframes fogB{to{opacity:0;transform:translateX(-30%)}}@keyframes fogC{to{opacity:0;transform:translateX(30%)}}
+.hc-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 55% 55%,transparent 45%,#000a 100%)}
+.hc-text{position:absolute;left:0;right:0;text-align:center;color:#fff3d6;text-shadow:0 2px 18px #000c;pointer-events:none;z-index:2}
+.hc-text.t1{top:14%;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:clamp(18px,2.4vw,28px);opacity:0;animation:hcT1 4s .6s ease forwards}
+@keyframes hcT1{20%,70%{opacity:1}to{opacity:0}}
+.hc-text.t2{top:7%;opacity:0;animation:hcT2 4.6s 4.4s ease forwards}
+.hc-text.t2 .fg{display:block;font-size:clamp(16px,1.8vw,22px);letter-spacing:.5em;color:#f6d39a}
+.hc-text.t2 b{display:block;font-family:"Noto Serif KR",serif;font-size:clamp(44px,7vw,96px);line-height:1.15;margin:4px 0}
+.hc-text.t2 small{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:clamp(15px,1.8vw,22px)}
+@keyframes hcT2{from{opacity:0;transform:translateY(14px)}25%{opacity:1;transform:none}to{opacity:1}}
+.hc-skip{position:absolute;right:20px;top:18px;z-index:3}
+@media (max-width:880px){.hc-ship{width:62vw}.hc-island{height:16vh}}
+
 /* ===== spacing polish ===== */
 .stage.painted .cap{position:static!important;display:block;margin:22px 0 0 auto!important;max-width:100%!important;text-align:right;font-size:12px;line-height:1.5;color:#efe3c899}
 .stage.painted{padding-bottom:58px!important}
@@ -849,6 +892,34 @@ function missionGate(done){
   d.addEventListener("click",e=>{ if(e.target.closest(".wheel")){ if(!spinning) spin(); return } const b=e.target.closest("[data-g]"); if(!b) return;
     if(b.dataset.g==="again"){spin();return}
     if(b.dataset.g==="pass"){S.usedGates.push(cur); done&&done(); d.classList.add("out"); setTimeout(()=>d.remove(),450)}});
+}
+
+/* ---------- 귀향 장면 ---------- */
+function homecoming(done){
+  const t=S.teams[0];
+  const d=document.createElement("div"); d.className="home-cine";
+  const gulls=[0,1,2,3,4].map(i=>`<path class="gull g${i}" d="M0 0 q6 -6 12 0 q6 -6 12 0" />`).join("");
+  d.innerHTML=`<div class="hc-cam">
+    <div class="hc-sky"></div><div class="hc-sun"></div>
+    <svg class="hc-island" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax meet">
+      <path d="M180 400 C300 330 380 300 470 286 C540 276 590 230 660 214 C730 198 770 236 820 228 C900 214 940 150 1010 142 C1080 136 1120 196 1180 210 C1250 226 1300 262 1380 300 C1450 334 1500 372 1560 400 Z" fill="#140c07"/>
+      <g fill="#140c07">${[620,680,1040,1100,1160,520,560].map((x,i)=>`<circle cx="${x}" cy="${i<2?218:i<5?(i==2?150:i==3?168:200):282}" r="${9+i%3*3}"/>`).join("")}
+      <g transform="translate(930 150)"><rect x="-34" y="-30" width="68" height="5"/><path d="M-38 -30 L0 -46 L38 -30Z"/>${[-28,-14,0,14,28].map(x=>`<rect x="${x-2.5}" y="-25" width="5" height="22"/>`).join("")}<rect x="-36" y="-3" width="72" height="5"/></g></g>
+    </svg>
+    <svg class="hc-birds" viewBox="0 0 400 120"><g fill="none" stroke="#140c07" stroke-width="2.2" stroke-linecap="round">${gulls}</g></svg>
+    <div class="hc-sea"><div class="hc-wave w1"></div><div class="hc-wave w2"></div><div class="hc-wave w3"></div></div>
+    <img class="hc-ship" src="map/ship.webp" alt="">
+    <div class="hc-fog f1"></div><div class="hc-fog f2"></div><div class="hc-fog f3"></div>
+  </div>
+  <div class="hc-text t1">수많은 시련 끝에, 안개 너머로…</div>
+  <div class="hc-text t2"><span class="fg">ΙΘΑΚΗ</span><b>이타카다!</b><small>${esc(t.name)}가 마침내 고향에 닿았다</small></div>
+  <div class="hc-vig"></div>
+  <button class="vy-skip hc-skip" type="button">건너뛰기</button>`;
+  document.body.appendChild(d);
+  let ended=false; const finish=()=>{if(ended)return;ended=true;done&&done();d.classList.add("out");setTimeout(()=>d.remove(),900)};
+  d.querySelector(".hc-skip").onclick=finish;
+  try{tone(147,2.5,"sine",.06); setTimeout(()=>{gong()},4300)}catch(e){}
+  setTimeout(finish,9200);
 }
 function voyageIntro(done){
   const i=S.round, route=ROUTES[S.setIdx], k=route[i], name=RNAME[S.setIdx+"-"+i]||PL[k][0];
@@ -1504,7 +1575,7 @@ document.addEventListener("click",e=>{
   if(a==="mtimer"){ensureAudio();startTimer(MISSIONS[outcomeOf().m].timer);return}
   if(a==="apply"){stopTimer();applyRound();return}
   if(a==="next"){S.round++;startRound();return}
-  if(a==="final"){finalSettle();return}
+  if(a==="final"){const t=S.teams[0]; const pre=Math.max(0,t.tokens-(t.athenaRound!==4?3*t.cards.curse+2*t.cards.delay:0)); if(pre>=GOAL&&!RM) homecoming(finalSettle); else finalSettle(); return}
   if(a==="again"){const keep=S.setIdx;initTitle();S.setIdx=(keep+1)%4;render();return}
 });
 document.addEventListener("change",e=>{
