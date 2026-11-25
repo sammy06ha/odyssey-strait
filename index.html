@@ -794,13 +794,13 @@ body{word-break:keep-all;overflow-wrap:break-word}
   <ol>
     <li>시련마다 진행요원이 상황과 두 갈래 길(Λ·Β)을 들려준다.</li>
     <li><b>1분</b> 동안 팀원끼리 지혜를 모아 하나를 고른다.</li>
-    <li><b>두 팀 대결</b>에서는 두 배가 같은 시련을 함께 겪고, 각 팀이 몰래 길을 고른다. 이타카에 동료를 더 많이 데려간 팀이 이긴다.</li>
+    <li><b>두 팀 대결</b>: 두 배가 같은 시련을 함께 겪고, 각 팀이 몰래 길을 고른다.</li>
     <li>다음 섬에 상륙하려면 룰렛으로 뽑은 <b>미션</b>을 팀원 한 명이 성공해 상륙 허가를 받아야 한다.</li>
     <li>운명은 고른 뒤에야 드러난다. 동전, 퀴즈, 몸으로 하는 미션에 운명이 걸리기도 한다.</li>
     <li><b>아테나의 가호</b>: 한 판에 한 번, 그 시련의 결과를 없던 일로 만든다. 길을 고른 뒤, 결과가 드러나기 전에만.</li>
     <li>신과 망자에게서 선물이나 저주를 받기도 한다.</li>
   </ol>
-  <p><b>동료 5명 이상</b>을 살려 이타카에 닿으면 귀향 성공 — 도장과 간식! 그 외에는 도장. 한 팀 1~3명 · 약 8분.</p>
+  <p>끝까지 <b>살아남은 동료가 더 많은 팀</b>이 도장과 간식, 진 팀은 도장! 동료 수가 같으면 <b>가위바위보</b>로 이긴 팀이 간식을 가져간다.<br><small>한 팀으로 할 때는 동료 5명 이상이면 간식 · 팀당 1~3명 · 약 8분</small></p>
   <div class="controls"><button class="inkbtn" data-act="closeRules">닫기</button></div>
 </div></div>
 
@@ -994,7 +994,7 @@ function newTeam(name){return {name,tokens:10,athena:true,athenaRound:null,
   cards:{circe:0,curse:0,elpenor:0,prophecy:0,delay:0},used:[],choice:null,useAthena:false,res:null}}
 function initTitle(){
   const last=parseInt(load("strait_lastSet")||"-1",10);
-  S={phase:"title",setIdx:isNaN(last)?0:(last+1)%4,name:"오디세우스호",round:0,teams:[],quizUsed:[],timeLeft:60,timerMax:60,flash:null,duo:load("strait_duo")==="1",name2:"페넬로페호"};
+  S={phase:"title",setIdx:isNaN(last)?0:(last+1)%4,name:"오디세우스호",round:0,teams:[],quizUsed:[],timeLeft:60,timerMax:60,flash:null,duo:load("strait_duo")!=="0",name2:"페넬로페호"};
   render();
 }
 function startGame(){
@@ -1260,6 +1260,7 @@ const ART={
 
 const STORY_IMG={troy:"troy",ship:"ship",crew:"crew",storm:"storm",owl:"owl",coin:"coin",shield:"shield",strait:"strait",ithaca:"ithaca",title:"ship"};
 const tondoImg=k=>`<img src="art/${STORY_IMG[k]}.webp" alt="">`;
+const scLines=sc=>(S.duo&&sc.duoLines)||sc.lines, scRule=sc=>(S.duo&&sc.duoRule)||sc.rule;
 const STORY=[
  {art:"troy", lines:["트로이는 불탔다.","십 년에 걸친 전쟁이 마침내 끝났다."]},
  {art:"ship", lines:["그대의 이름은 오디세우스.","이타카의 왕이자, 지략의 영웅.","이제 집으로 돌아갈 시간이다."]},
@@ -1269,7 +1270,8 @@ const STORY=[
  {art:"coin", lines:["\"어느 길이 옳은지는 신들만이 안다.\"","\"운명은 길을 고른 뒤에야 드러나리라.\"","\"때로는 동전 한 닢에, 때로는 너희의 손과 지혜에.\""], q:[0,1,2], rule:"결과는 <b>선택한 뒤 공개</b> · 동전, 퀴즈, 몸으로 하는 미션"},
  {art:"shield", lines:["\"단 한 번, 나의 방패로 그대를 지켜 주마.\"","\"길을 고른 뒤, 운명이 드러나기 전에 나를 부르라.\"","여정 중에는 신과 망자의 선물도, 저주도 받게 되리라."], q:[0,1], rule:"<b>아테나의 가호</b> 한 번 — 그 시련의 결과를 없던 일로 · 선물과 저주 카드"},
  {art:"strait", lines:["그리고 마침내, 그 해협.","머리 여섯의 괴물 스퀼라와, 모든 것을 삼키는 소용돌이 카륍디스.","오디세이의 이야기를 기억하라. 그것이 그대의 유일한 길잡이다."]},
- {art:"ithaca", lines:["동료 다섯 이상을 살려 이타카에 닿는다면,","그대의 귀향은 영원히 노래로 남으리라."], rule:"목표: 동료 <b>5명 이상</b> 생존 → 귀향 성공"},
+ {art:"ithaca", lines:["동료 다섯 이상을 살려 이타카에 닿는다면,","그대의 귀향은 영원히 노래로 남으리라."], rule:"목표: 동료 <b>5명 이상</b> 생존 → 귀향 성공",
+  duoLines:["두 배가 같은 바다를 건넌다.","더 많은 동료를 이타카로 데려가는 배만이","영원히 노래로 남으리라."], duoRule:"<b>살아남은 동료가 더 많은 팀</b> 승리 · 같으면 가위바위보"},
  {art:"title", final:true}
 ];
 
@@ -1289,20 +1291,20 @@ function cineHTML(){
   }
   return `<div class="cine" data-act="cineNext"><div class="bars">${bars}</div>${ctl}
     <div class="tondo">${tondoImg(sc.art)}</div>
-    <div class="narr">${sc.lines.map((l,i)=>`<div class="ln ${sc.q&&sc.q.includes(i)?'q':''}" id="ln${i}">${esc(l)}</div>`).join("")}
-      ${sc.rule?`<div class="rulechip" id="rchip">${sc.rule}</div>`:""}</div>
+    <div class="narr">${scLines(sc).map((l,i)=>`<div class="ln ${sc.q&&sc.q.includes(i)?'q':''}" id="ln${i}">${esc(l)}</div>`).join("")}
+      ${scRule(sc)?`<div class="rulechip" id="rchip">${scRule(sc)}</div>`:""}</div>
     <div class="bot-ctl"><button class="stone" data-act="cinePrev">이전</button><button class="stone" data-act="cineNextBtn">다음</button><button class="stone" data-act="cineSkip">건너뛰기</button></div></div>`;
 }
 function playScene(){
   clearCine(); render();
   const sc=STORY[cineIdx]; if(sc.final){gong();return}
   // 줄마다 글자 수에 비례해 읽을 시간을 준다
-  const start=1600, dur=sc.lines.map(l=>Math.max(3400,1800+80*l.length));
+  const start=1600, dur=scLines(sc).map(l=>Math.max(3400,1800+80*l.length));
   let at=start; const shows=dur.map(d=>{const t=at; at+=d; return t});
-  sc.lines.forEach((_,i)=>cineTimers.push(setTimeout(()=>{const el=document.getElementById("ln"+i); if(el) el.classList.add("on")},shows[i])));
+  scLines(sc).forEach((_,i)=>cineTimers.push(setTimeout(()=>{const el=document.getElementById("ln"+i); if(el) el.classList.add("on")},shows[i])));
   const chipAt=at-200;
-  if(sc.rule) cineTimers.push(setTimeout(()=>{const el=document.getElementById("rchip"); if(el){el.classList.add("on");tone(523,.5,"triangle",.08)}},chipAt));
-  const total=at+(sc.rule?5200:2600);
+  if(scRule(sc)) cineTimers.push(setTimeout(()=>{const el=document.getElementById("rchip"); if(el){el.classList.add("on");tone(523,.5,"triangle",.08)}},chipAt));
+  const total=at+(scRule(sc)?5200:2600);
   const bar=document.getElementById("bar"+cineIdx);
   if(bar){bar.style.transition=`width ${total}ms linear`; requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.width="100%"))}
   cineTimers.push(setTimeout(nextScene,total));
@@ -1558,7 +1560,7 @@ function crewPanelOne(ti,withMap){
   return `<div class="crew-panel ${duo?'duo t'+ti:''}"><div class="ship">${duo?`<span class="tchip t${ti}">${ti+1}팀</span>`:''}${esc(t.name)}</div>${duo?'':'<div class="sub">ΟΔΥΣΣΕΥΣ · ΙΘΑΚΗ</div>'}
     <div class="crew-count"><span class="num ${S.flash||''}">${t.tokens}</span><div class="lbl">명의 동료가 살아 있다</div></div>
     <div class="helmets">${helms}</div>
-    <div class="goal">귀향 조건: 동료 <b>${GOAL}명 이상</b></div>
+    <div class="goal">${duo?"동료를 <b>더 많이</b> 살린 팀이 승리":`귀향 조건: 동료 <b>${GOAL}명 이상</b>`}</div>
     ${withMap?`<button class="mapcard" data-act="openMap" aria-label="항해도 크게 보기">${mapSVG({...mapStatus(),anim:S.fx&&S.fx.enter})}<span>${(()=>{const st=mapStatus();const k=ROUTES[S.setIdx][Math.min(4,st.cur<0?4:st.cur)];return esc(RNAME[S.setIdx+"-"+Math.min(4,st.cur<0?4:st.cur)]||PL[k][0])})()} · 항해도 크게 보기</span></button>`:''}
     <div class="gifts">${ath}${gifts}${used}</div></div>`;
 }
@@ -1676,8 +1678,8 @@ function finalDuo(){
       <table class="settle"><tbody>${row("남은 동료",f.base)}${t.cards.curse?row("포세이돈의 저주",f.curse||"0"):""}${t.cards.delay?row("7년의 지체",f.delay||"0"):""}<tr class="tot"><td>이타카에 닿은 동료</td><td>${f.total}</td></tr></tbody></table>
       <div class="controls" style="justify-content:center" data-team="${i}"><button class="bronze sm" data-act="cert">귀향 인증 카드</button></div></div>`};
   return `<div class="final-wrap"><div class="kicker">ΝΟΣΤΟΣ · 귀향</div>
-    <h2>${win<0?"두 배가 똑같이 해냈다! 무승부":`${esc(S.teams[win].name)}의 승리!`}</h2>
-    <div style="font-size:16px;color:#2b1a0c">${win<0?"두 팀 모두 도장과 간식을 받아 가라.":"이긴 팀은 도장과 간식, 진 팀은 도장을 받아 가라."}</div>
+    <h2>${win<0?"두 배가 똑같이 해냈다! 동점":`${esc(S.teams[win].name)}의 승리!`}</h2>
+    <div style="font-size:16px;color:#2b1a0c">${win<0?"가위바위보로 승부를 가려라! 이긴 팀은 도장과 간식, 진 팀은 도장을 받아 가라.":"이긴 팀은 도장과 간식, 진 팀은 도장을 받아 가라."}</div>
     <div class="final-duo">${col(a,0)}${col(b,1)}</div>
     <div class="final-map">${mapSVG({done:5,cur:-1,final:true,home:anyOk,wreck:anyOk?null:4})}</div>
     <div class="controls" style="justify-content:center"><button class="inkbtn" data-act="again">다음 오디세우스들을 맞이하라</button></div>
